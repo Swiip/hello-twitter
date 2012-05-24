@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello Twitter</title>
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/screen.css")">
+    <script type="text/javascript">
+      var require = {
+        baseUrl: "@routes.Assets.at("javascripts")",
+        deps: ["app"]
+      };
+    </script>
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/require.js")"></script>
+
+    <script type="text/underscore-template" id="tweet-item-template">
+      <img class="profile" src="<%= user.profileImageURL %>">
+      <span class="user"><%- user.screenName %></span>
+      <span class="tweet"><%= text %></span>
+    </script>
+
+    <script type="text/underscore-template" id="tweet-retweet-template">
+      <div class="retweet">Retweeted by
+        <span class="user"><%- user.screenName %></span>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <div class="container">
+      <div id="tweets">
+      </div>
+      <input type="text" id="entry">
+    </div>
+  </body>
+</html>

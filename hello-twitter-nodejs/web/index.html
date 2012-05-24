@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello Backbone</title>
+    <link rel="stylesheet" href="/screen.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      var require = {
+        baseUrl: "/j",
+        deps: ["cs!app"]
+      };
+    </script>
+    <script type="text/javascript" src="/j/require.js"></script>
+
+    <script type="text/underscore-template" id="tweet-item-template">
+      <img class="profile" src="<%= user.profile_image_url %>">
+      <span class="user"><%- user.screen_name %></span>
+      <span class="tweet"><%= text %></span>
+    </script>
+
+    <script type="text/underscore-template" id="tweet-retweet-template">
+      <div class="retweet">Retweeted by
+        <span class="user"><%- user.screen_name %></span>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <div class="container">
+      <div id="tweets">
+      </div>
+      <input type="text" id="entry">
+    </div>
+  </body>
+</html>
