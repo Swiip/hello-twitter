@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Ubuntu'), url('fonts/Ubuntu-R.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url('fonts/Ubuntu-B.ttf') format('truetype');
+}
+
+body, div, input {
+    font-family: "Ubuntu";
+    font-size: 16pt;
+    line-height: 1.5;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    background-color: #333;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+div.container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 480px;
+    margin-left: -240px;
+    background-color: #ddd;
+    box-shadow: 0 0 32px black;
+}
+
+#tweets {
+    position: absolute;
+    top: 0;
+    bottom: 30pt;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+}
+
+#entry {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24pt;
+}
+
+#tweets li {
+    list-style: none;
+    border: 1px outset white;
+    padding: 0.4em 0.4em;
+    background: -moz-linear-gradient(top, #e0e0e0 0%, #d0d0d0 100%);
+    background: -webkit-linear-gradient(top, #e0e0e0 0%,#d0d0d0 100%);
+    background: linear-gradient(top, #e0e0e0 0%,#d0d0d0 100%);
+    color: #333;
+    min-height: 48px;
+}
+
+#tweets span.user {
+    font-weight: bold;
+    color: #7a43b6;
+    cursor: pointer;
+}
+
+#tweets span.user:after {
+    content: ":";
+}
+
+#tweets img.profile {
+    float: left;
+    margin-right: 0.6em;
+    margin-bottom: 0.4em;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+#tweets .retweet {
+    font-size: 14pt;
+    color: #888;
+    text-align: right;
+}
+
+#tweets .retweet span.user {
+    color: #666;
+    font-weight: normal;
+}
+
+#tweets .retweet span.user:after {
+    content: "";
+}
