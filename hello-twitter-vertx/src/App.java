@@ -8,10 +8,11 @@ import org.vertx.java.core.sockjs.SockJSServer;
 import org.vertx.java.core.sockjs.SockJSSocket;
 import org.vertx.java.deploy.Verticle;
 
+import twitter4j.FilterQuery;
+import twitter4j.StatusAdapter;
+import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.UserStreamAdapter;
-import twitter4j.UserStreamListener;
 
 public class App extends Verticle {
     public void start() {
@@ -30,32 +31,35 @@ public class App extends Verticle {
         });
 
         final TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-        twitterStream.addListener(new UserStreamAdapter());
-        twitterStream.user();
-        
+
+        // twitterStream.addListener(new StatusAdapter());
+        // FilterQuery filterQuery = new FilterQuery();
+        // filterQuery.track(new String[] { "twitter" });
+        // twitterStream.filter(filterQuery);
+
         SockJSServer sockJSServer = vertx.createSockJSServer(httpServer);
 
         JsonObject config = new JsonObject().putString("prefix", "/twitter");
 
         sockJSServer.installApp(config, new Handler<SockJSSocket>() {
             public void handle(final SockJSSocket sock) {
-                
-                UserStreamListener userStreamListener = new UserStreamAdapter() {
+                final StatusListener statusListener = new StatusAdapter() {
                     @Override
                     public void onStatus(twitter4j.Status status) {
                         if (status.getInReplyToScreenName() == null) {
                             Buffer buffer = new Buffer(Json.encode(status));
                             sock.writeBuffer(buffer);
-                            System.out.println("writing " + buffer);
                         }
                     }
                 };
-                
-                twitterStream.addListener(userStreamListener);
-                
+
                 sock.dataHandler(new Handler<Buffer>() {
                     public void handle(Buffer buffer) {
-                        System.out.println("toto: " + buffer.toString());
+                        twitterStream.cleanUp();
+                        twitterStream.addListener(statusListener);
+                        FilterQuery filterQuery = new FilterQuery();
+                        filterQuery.track(new String[] { buffer.toString() });
+                        twitterStream.filter(filterQuery);
                     }
                 });
             }

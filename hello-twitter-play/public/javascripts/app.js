@@ -54,7 +54,7 @@ define([ "jquery", "underscore", "backbone" ], function($, _, Backbone, Twitter)
             } else {
                 this.$el.append(view.el);
             }
-            console.log("ajout à ", this.$el, " du tweet ", tweet)
+            console.log("ajout ï¿½ ", this.$el, " du tweet ", tweet)
         },
 
         removeTweet : function(tweet) {
@@ -105,4 +105,5 @@ define([ "jquery", "underscore", "backbone" ], function($, _, Backbone, Twitter)
     webSocket.onclose = function(event) {
         console.log("close", event);
     }
+
 });

@@ -1,12 +1,6 @@
 define([ "jquery", "underscore", "backbone" ], function($, _, Backbone, Twitter) {
 
-    var Tweet = Backbone.Model.extend({
-        validate : function(attrs) {
-            if (attrs.text.length > 140) {
-                return "A tweet cannot be longer than 140 characters";
-            }
-        }
-    });
+    var Tweet = Backbone.Model.extend();
 
     var Tweets = Backbone.Collection.extend({
         model : Tweet,
@@ -54,7 +48,6 @@ define([ "jquery", "underscore", "backbone" ], function($, _, Backbone, Twitter)
             } else {
                 this.$el.append(view.el);
             }
-            console.log("ajout � ", this.$el, " du tweet ", tweet)
         },
 
         removeTweet : function(tweet) {
@@ -69,23 +62,21 @@ define([ "jquery", "underscore", "backbone" ], function($, _, Backbone, Twitter)
 
         onKeydown : function(event) {
             if (event.keyCode == 13) {
-                text = this.$el.val();
-                this.$el.val("");
-                twitter.tweed(text);
+                sock.send(this.$el.val());
+                tweets.reset();
+                list.$el.empty();
             }
         }
     });
 
     window.tweets = tweets = new Tweets();
 
-    console.log($("#tweets"));
     window.list = list = new TweetList({
         collection : tweets,
         el : $("#tweets")
     });
-    console.log(list.$el, list.el);
 
-    window.input = input = Input.extend({
+    window.input = input = new Input({
         el : $("#entry")
     });
     
