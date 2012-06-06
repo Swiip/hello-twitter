@@ -32,11 +32,6 @@ public class App extends Verticle {
 
         final TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
 
-        // twitterStream.addListener(new StatusAdapter());
-        // FilterQuery filterQuery = new FilterQuery();
-        // filterQuery.track(new String[] { "twitter" });
-        // twitterStream.filter(filterQuery);
-
         SockJSServer sockJSServer = vertx.createSockJSServer(httpServer);
 
         JsonObject config = new JsonObject().putString("prefix", "/twitter");

@@ -7,11 +7,13 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
+import twitter4j.FilterQuery;
+import twitter4j.StatusAdapter;
+import twitter4j.StatusListener;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.UserStreamAdapter;
-import twitter4j.UserStreamListener;
 import views.html.index;
 
 public class Application extends Controller {
@@ -31,23 +33,24 @@ public class Application extends Controller {
             public void onReady(WebSocket.In<String> in, final WebSocket.Out<String> out) {
                 debug("web socket ready");
 
-                UserStreamListener userStreamListener = new UserStreamAdapter() {
+                final StatusListener statusListener = new StatusAdapter() {
                     @Override
                     public void onStatus(twitter4j.Status status) {
                         if (status.getInReplyToScreenName() == null) {
                             out.write(Json.toJson(status).toString());
-                            debug("status - " + status.getText() + " - " + status.getUser().getName());
                         }
                     }
                 };
 
-                twitterStream.addListener(userStreamListener);
-
                 // For each event received on the socket,
                 in.onMessage(new Callback<String>() {
                     @Override
-                    public void invoke(String arg0) throws Throwable {
-                        debug("on message" + arg0);
+                    public void invoke(String message) throws Throwable {
+                        twitterStream.cleanUp();
+                        twitterStream.addListener(statusListener);
+                        FilterQuery filterQuery = new FilterQuery();
+                        filterQuery.track(new String[] { message });
+                        twitterStream.filter(filterQuery);
                     }
                 });
 

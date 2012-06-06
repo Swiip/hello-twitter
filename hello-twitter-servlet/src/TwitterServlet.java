@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.util.ajax.JSON;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketServlet;
 
@@ -36,7 +36,7 @@ public class TwitterServlet extends WebSocketServlet {
                 public void onStatus(twitter4j.Status status) {
                     if (status.getInReplyToScreenName() == null) {
                         try {
-                            connection.sendMessage(JSON.toString(status));
+                            connection.sendMessage(new ObjectMapper().writeValueAsString(status));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
