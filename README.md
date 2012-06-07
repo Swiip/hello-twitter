@@ -1,6 +1,6 @@
 # WebSockets in practice
 
-This Github repository aims to regroup some implementations of the same application based on WebSockets.
+This GitHub repository aims to regroup some implementations of the same application based on WebSockets.
 
 As a Java specialist, most of the chosen implementations are in Java but I've added the [node.js](http://nodejs.org) / [Socket.IO](http://socket.io/) implementation as sort of reference.
 
